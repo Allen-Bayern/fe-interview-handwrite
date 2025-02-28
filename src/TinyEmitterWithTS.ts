@@ -1,18 +1,17 @@
 export interface EventDict {
-  [key: string]: ((...args: any) => any)[];
+  [key: string]: (...args: any) => any;
 }
 
 /**
  * @description 简单的发布订阅模式
  */
-export class EventRocket {
-  eventDict: EventDict = Object.create(null);
+export class EventRocket<D extends EventDict = EventDict> {
+  eventDict: {
+    [Key in keyof D]: D[Key][];
+  } = Object.create(null);
 
   //  发布
-  publish<T extends (...args: any) => any = (...args: any) => any>(
-    eventName: string,
-    cb: T
-  ) {
+  publish<Key extends keyof D>(eventName: Key, cb: D[Key]) {
     if (!this.eventDict.hasOwnProperty(eventName)) {
       // 增加发布数组
       Object.assign(this.eventDict, {
@@ -26,10 +25,7 @@ export class EventRocket {
   }
 
   //   订阅
-  emit(
-    eventName: string,
-    ...args: Parameters<(typeof this.eventDict)[string][number]>
-  ) {
+  emit<Key extends keyof D>(eventName: Key, ...args: Parameters<D[Key]>) {
     const emitted = this.eventDict[eventName];
 
     if (emitted.length) {
@@ -42,10 +38,7 @@ export class EventRocket {
   }
 
   //  取消发布
-  unpublish<T extends (...args: any) => any = (...args: any) => any>(
-    eventName: string,
-    cb: T
-  ): this {
+  unpublish<Key extends keyof D>(eventName: Key, cb: D[Key]): this {
     const cbIndex = this.eventDict[eventName].indexOf(cb);
     if (cbIndex > -1) {
       this.eventDict[eventName].splice(cbIndex, 1);
@@ -54,17 +47,17 @@ export class EventRocket {
     return this;
   }
   //    一次即用
-  once<T extends (...args: any) => any = (...args: unknown[]) => unknown>(
-    eventName: string,
-    cb: T,
-    ...args: Parameters<T>
+  once<Key extends keyof D>(
+    eventName: Key,
+    cb: D[Key],
+    ...args: Parameters<D[Key]>
   ) {
     // 执行一次的回调函数
     const listener = () => {
       this.unpublish(eventName, cb);
-      cb(...(args as any[]));
+      cb(...args);
     };
 
-    return this.publish(eventName, listener);
+    return this.publish(eventName, listener as D[Key]);
   }
 }
