@@ -1,63 +1,62 @@
-const methodsPool = (concur: number) => {
-  let queue: (() => any)[] = [];
+const pLimit = (concur: number) => {
+  const queue: ((...args: unknown[]) => void)[] = [];
+  let activeCount = 0;
 
-  let activeTasks = 0;
-
-  const next = () => {
-    activeTasks--;
-
-    if (queue.length) {
-      (queue.shift() as () => void)();
+  function resumeNext() {
+    if (activeCount < concur && queue.length) {
+      const curFunc = queue.shift();
+      // 防止跑空
+      if (curFunc) {
+        curFunc();
+        activeCount++;
+      }
     }
-  };
+  }
 
-  const run = async <Fn extends (...args: any[]) => any>(
-    fn: Fn,
-    resolve: (resolveArg: ReturnType<Fn>) => void,
-    ...args: Parameters<Fn>
-  ) => {
-    activeTasks++;
+  function next() {
+    resumeNext();
+    activeCount--;
+  }
 
-    const res = (async () => fn(...args))();
-    resolve(res as ReturnType<Fn>);
+  async function run(
+    _fn: (...args: unknown[]) => unknown,
+    resolve: (...args: unknown[]) => void,
+    ...args: unknown[]
+  ) {
+    const result = (async () => _fn(...args))();
+    resolve(result);
 
     try {
-      await res;
-    } catch (e) {}
+      await result;
+    } catch {}
 
     next();
-  };
+  }
 
-  const enqueue = <Fn extends (...args: any[]) => any>(
-    fn: Fn,
-    resolve: (resolveArg: ReturnType<Fn>) => void,
-    ...args: Parameters<Fn>
-  ) => {
-    queue.push(run(fn, resolve, ...args));
+  function _enqueue(
+    _fn: (...args: unknown[]) => unknown,
+    resolve: (...args: unknown[]) => void,
+    ...args: unknown[]
+  ) {
+    new Promise((_resolve) => {
+      queue.push(_resolve);
+    }).then(run.bind(null, _fn, resolve, ...args));
 
-    if (queue.length && activeTasks < concur) {
-      (queue.shift() as () => void)();
+    async function _internalFn() {
+      await Promise.resolve();
+      if (activeCount < concur) {
+        resumeNext();
+      }
     }
+
+    _internalFn();
+  }
+
+  const gen = (fn: (...args: unknown[]) => unknown, ..._args: unknown[]) => {
+    return new Promise((_resolve) => {
+      _enqueue(fn, _resolve, ..._args);
+    });
   };
 
-  const generator = (fn, ...args) =>
-    new Promise((reso) => {
-      enqueue(fn, reso, ...args);
-    });
-
-  Object.defineProperties(generator, {
-    active: {
-      get: () => activeTasks,
-    },
-    pendingCount: {
-      get: () => queue.length,
-    },
-    clear: {
-      value() {
-        queue = [];
-      },
-    },
-  });
-
-  return generator;
+  return gen;
 };
