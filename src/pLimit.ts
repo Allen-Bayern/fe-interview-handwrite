@@ -50,6 +50,8 @@ const pLimit = (concur: number) => {
         resumeNext();
       }
     }
+
+    await _internalFunc();
   };
 
   const gen = (fn: (..._args: unknown[]) => unknown, ...args: unknown[]) => {
