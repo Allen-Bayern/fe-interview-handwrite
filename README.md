@@ -1,101 +1,34 @@
-# 前端面试手写题
+# Craft Fundamentals
 
-整理前端面试常见的手写题，面试出现概率极高，建议每个都过自己过一遍。
+> 夯实基础，拥抱变化。
 
-你也可以提交 PR，提供你面试遇到的题目。
+## 项目简介
 
-代码汇总请参照 [SUMMARY.md](./SUMMARY.md) 。
+本仓库最初用于收集前端面试中常见的手写题，旨在帮助开发者备考与巩固核心知识。
 
-**高频**：★★★ </br>
-**中频**：★★ </br>
-**低频**：★ </br>
+随着 AI 时代的到来，各大厂纷纷淡化甚至取消传统前端岗位，技术从业者的能力边界正在被重新定义。基于此，本仓库自即日起进行转型——**不再局限于前端手写题**，而是拓展为一个更为通用的技术基础学习与实践仓库。
 
-## JavaScript 原理
+## 分支说明
 
-- [实现 bind()](./src/bind.js) ★★
-- [实现 apply()](./src/apply.js) ★★
-- [实现 call()](./src/call.js) ★★
-- [实现 instanceof](./src/instanceof.js) ★
-- [实现 new](./src/new.js) ★
-- [实现 jsonp](./src/jsonp.js) ★★★
-- [实现 Promise](./src/promise.js) ★★★
-- [实现 Promise (外网摘下来的A+测试版, 可以直接背)](./src/PromiseAPlus.js) ★★★
-- [实现 Promise.all()](./src/promiseAll.js) ★★★
-- [实现 Promise.race()](./src/promiseRace.js) ★
-- [实现并发Promise](./src/PromisPool.js) ★★
-- [实现用Promise封装的ajax](./src/PromiseAjax.js) ★★
-- [实现 Proxy](./src/proxy.js) ★★
-- [实现 EventEmitter 订阅监听模式](./src/subscribe.js) ★★
-- [setTimout 实现 setInterval](./src/interval.js) ★
-- [深拷贝](./src/deepclone.js)  ★★★
-- [实现全排列](./src/permutation.js) ★★
+| 分支 | 说明 |
+| --- | --- |
+| `old-main` | 历史前端手写题归档分支。包含此前所有前端手写题内容，不再新增题目，仅做纠错与维护。 |
+| `main` | 主分支，承载转型后的新内容。 |
 
+如需查阅此前的前端手写题，请切换至 `old-main` 分支。
 
-### 函数
+## 后续规划
 
-- [函数防抖](./src/debounce.js) ★★★
-- [函数节流](./src/throttle.js) ★★★
-- [函数柯里化（实现 `sum(1,2)(3)()`）](./src/curry.js) ★★★
-- [compose 函数](./src/compose.js) ★★
-- [before 函数](./src/before.js) ★
+`main` 分支及后续新建分支将从**广度**与**深度**两个维度持续更新：
 
+- **广度**：覆盖从业所需的基础知识，不局限于特定技术栈，涉及编程语言、数据结构与算法、工程化实践等多个领域。
+- **深度**：在基础之上深入原理与底层实现，追求知其然更知其所以然。
+- **AI 方向**：侧重 AI 相关技术，包括但不限于 AI 应用开发、Prompt 工程、AI 辅助编程实践等。
 
-## 数组
+## 贡献
 
-- [数组拍平](./src/flatten.js) ★★★
-- [数组去重](./src/unique.js) ★★★
-- [数组转对象](./src/array2Object.js) ★
+欢迎提交 PR 与 Issue。无论是纠错、补充还是新方向的内容贡献，均不胜感激。
 
-## 字符串
+## License
 
-- [去除字符串首尾空格](./src/trim.js) ★
-- [下划线驼峰互转](./src/camel.js) ★
-
-## 数学
-
-- [计算圆周率](./src/pi.js) ★
-
-## 算法
-
-算法需要掌握基本的数据结构，例如栈、队列、链表、树、排序算法等等，建议去 [LeetCode](https://leetcode-cn.com/) 上刷题。不过不要为了刷题而刷题，最重要的是归纳与总结，**刷十道不如一道刷十遍。**
-
-- [归并排序](./src/mergeSort.js) ★★
-- [插入排序](./src/insertionSort.js) ★
-- [快速排序](./src/quickSort.js) ★★★
-- [选择排序](./src/selectionSort.js) ★
-- [希尔排序](./src/shellSort.js) ★
-- [堆排序](./src/heapSort.js) ★
-- [二分查找](./src/binarySearch.js) ★
-- [最长递增子序列](./src/lis.js) ★★★
-- [最长公共子串](./src/longestCommonPrefix.js) ★★
-- [城市数据找父节点](./src/city.js) ★
-- [查找缺失的数](./src/missingNumber.js) ★
-- [**多个**数组取交集](./src/ArrayIntersections.ts) ★
-
-
-分享一下自己整理的 LeetCode 上必刷的题，比较具有代表性。
-
-- [ ] LeetCode 001 Two Sum
-- [ ] LeetCode 015 3Sum(可能会问 LeetCode18.4Sum思路)
-- [ ] LeetCode 020 Valid Parentheses
-- [ ] LeetCode 021 Merge Two Sorted Lists
-- [ ] LeetCode 025 Reverse Nodes in k-group
-- [ ] LeetCode 053 Maximum Subarra
-- [ ] LeetCode 066 Plus One(等介于:高精度加加法)
-- [ ] LeetCode 098 Validate Binary Search Tree
-- [ ] LeetCode 110 Balanced Binary Tree
-- [ ] LeetCode 134 Gas Station
-- [ ] LeetCode 136 Single Number
-- [ ] LeetCode 137 Single Number II
-- [ ] LeetCode 146 LRU Cache(变形题:带有过期时间的LRU缓存)（Map + 链表）
-- [ ] LeetCode 206 Reverse Linked List（递归、迭代）
-- [ ] LeetCode 215 Kth Largest Element in an Array(等价于:快速排序)
-- [ ] LeetCode 232 Implement Queue using Stacks(每次将新来的元素放到栈底，stack.push())
-- [ ] LeetCode 328 Odd Even Linked List
-- [ ] LeetCode 415 Add Strings(等价于:大数加法)
-- [ ] LeetCode 470 rand70rand100
-- [ ] LeetCode 496 Next Greater Element I(时间复杂度O(n)(单调栈，使用 Map 映射 stack 的指定位置)
-- [ ] LeetCode 716 Max Stack(两个栈实现最大栈,要求pop,push, get max都为0(1)
-- [ ] LeetCode 860 Lemonade Change
-
-
+MIT
