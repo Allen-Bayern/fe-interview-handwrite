@@ -43,9 +43,35 @@
 
 各阶段的变更说明见 [CHANGELOG.md](./CHANGELOG.md)。
 
+## 分支管理
+
+本仓库采用**轻量 GitHub Flow**：
+
+- `main`：唯一长期集成分支，始终对外可读。所有内容通过 PR 合入。
+- `old-main`：历史归档分支，**只读**，仅做纠错维护，**不接受新内容 PR**。
+- 主题分支：从 `main` 切出，命名按 `目录/简短描述`，如 `problems/debounce`、`notes/event-loop`、`career/interview-2026-08`。合并后立即删除，生命周期建议 ≤ 1 周。
+
+里程碑节点会在 `main` 上打日期版本 tag（如 `v2026.08.03`），便于回溯内容快照，详见 [CHANGELOG](./CHANGELOG.md)。
+
 ## 贡献
 
 欢迎提交 PR 与 Issue。无论是纠错、补充还是新方向的内容贡献，均不胜感激。
+
+### 提交流程
+
+1. 从 `main` 切出主题分支：`git switch -c problems/debounce`。
+2. 完成内容，按 [Conventional Commits](https://www.conventionalcommits.org/) 风格提交：
+   - `feat:` 新增题目/笔记/模板
+   - `fix:` 纠错
+   - `docs:` 文档调整
+   - `style:` / `perf:` 格式与优化
+3. 向 `main` 发起 PR，**粒度**：一篇题解 / 一篇笔记 / 一组模板为一个 PR，便于 review 与 CHANGELOG 聚合。
+4. 合入后删除主题分支。
+
+### 约定
+
+- 不向 `old-main` 提 PR；如发现历史归档有误，请在 `main` 上以 Issue 形式记录。
+- 合入 PR 时同步追加 CHANGELOG 条目；里程碑达成时由维护者打 tag。
 
 ## License
 
